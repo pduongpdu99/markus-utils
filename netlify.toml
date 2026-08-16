@@ -1,0 +1,10 @@
+[build]
+    command="pnpm approve-builds esbuild@0.28.1, netlify-cli@27.1.1, sharp@0.34.5, unix-dgram@2.0.7 && pnpm build"
+    publish="dist"
+    base=""
+    functions="netlify/functions"
+
+[[redirects]]
+    from="/api/*"
+    to="/.netlify/functions/:splat"
+    status=200

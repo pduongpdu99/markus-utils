@@ -1,0 +1,28 @@
+{
+  "name": "markus-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "netlify dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "@netlify/functions": "^5.3.0",
+    "netlify-cli": "^22.2.2",
+    "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "typescript@5.9.3": true,
+    "typescript@7.0.2": true,
+    "esbuild@0.28.0": true,
+    "esbuild@0.25.5": true,
+    "netlify-cli@22.2.2": true,
+    "sharp@0.32.6": true,
+    "unix-dgram@2.0.7": true
+  }
+}
