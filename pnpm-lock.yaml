@@ -11,6 +11,9 @@ importers:
       '@getbrevo/brevo':
         specifier: ^6.0.3
         version: 6.0.3
+      '@netlify/blobs':
+        specifier: ^10.7.13
+        version: 10.7.13(supports-color@10.2.2)
       '@netlify/functions':
         specifier: ^5.3.0
         version: 5.3.0
