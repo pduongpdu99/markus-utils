@@ -1,5 +1,8 @@
 import { Handler } from "@netlify/functions";
 import { BrevoClient } from "@getbrevo/brevo";
+import fs from "node:fs";
+import path from "node:path";
+import Handlebars from "handlebars";
 
 type MailPayload = {
   to?: string | string[];
@@ -10,6 +13,20 @@ type MailPayload = {
   fromEmail?: string;
   fromName?: string;
   replyTo?: string;
+  template?: string;
+  templateContext?: Record<string, unknown>;
+  name?: string;
+  customerName?: string;
+  email?: string;
+  phone?: string;
+  budget?: string;
+  projectType?: string;
+  projectGoal?: string;
+  projectDescription?: string;
+  timeline?: string;
+  notes?: string;
+  source?: string;
+  submittedAt?: string;
 };
 
 const buildRecipients = (value: string | string[] | undefined) => {
@@ -73,7 +90,43 @@ export const handler: Handler = async (event) => {
 
   const subject = payload.subject ?? "New message";
   const textContent = payload.textContent ?? payload.message ?? "";
-  const htmlContent = payload.htmlContent ?? (textContent ? `<p>${textContent.replace(/\n/g, "<br />")}</p>` : "");
+
+  const templateName = payload.template ?? (
+    payload.projectDescription || payload.budget || payload.projectType ? "support-request" : undefined
+  );
+
+  const templateContext = {
+    subject: payload.subject ?? "Yêu cầu hỗ trợ",
+    customerName: payload.customerName ?? payload.name ?? "Khách hàng",
+    email: payload.email ?? "",
+    phone: payload.phone ?? "",
+    budget: payload.budget ?? "",
+    projectType: payload.projectType ?? "",
+    projectGoal: payload.projectGoal ?? "",
+    projectDescription: payload.projectDescription ?? payload.message ?? "",
+    timeline: payload.timeline ?? "",
+    notes: payload.notes ?? "",
+    source: payload.source ?? "chatbox",
+    submittedAt: payload.submittedAt ?? new Date().toISOString().slice(0, 10),
+    ...(payload.templateContext ?? {}),
+  };
+
+  let htmlContent = payload.htmlContent ?? "";
+
+  if (!htmlContent && templateName) {
+    try {
+      const templatePath = path.join(process.cwd(), "templates", `${templateName}.hbs`);
+      const templateSource = fs.readFileSync(templatePath, "utf8");
+      const template = Handlebars.compile(templateSource);
+      htmlContent = template(templateContext);
+    } catch {
+      htmlContent = textContent ? `<p>${textContent.replace(/\n/g, "<br />")}</p>` : "";
+    }
+  }
+
+  if (!htmlContent && textContent) {
+    htmlContent = `<p>${textContent.replace(/\n/g, "<br />")}</p>`;
+  }
 
   try {
     const brevo = new BrevoClient({ apiKey });
