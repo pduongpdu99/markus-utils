@@ -15,7 +15,6 @@
     "@getbrevo/brevo": "^6.0.3",
     "@netlify/functions": "^5.3.0",
     "handlebars": "^4.7.9",
-    "netlify-cli": "^22.2.2",
     "typescript": "^7.0.2"
   },
   "allowScripts": {
@@ -28,6 +27,7 @@
     "unix-dgram@2.0.7": true
   },
   "devDependencies": {
-    "@types/node": "^26.2.0"
+    "@types/node": "^26.2.0",
+    "netlify-cli": "^27.1.1"
   }
 }

@@ -144,12 +144,13 @@ export const handler: Handler = async (event) => {
 
   try {
     const brevo = new BrevoClient({ apiKey });
-
     const response = await brevo.transactionalEmails.sendTransacEmail({
       subject,
       sender: {
-        name: payload.fromName ?? "Markus Utils",
-        email: payload.fromEmail ?? "no-reply@markus-eco.com",
+        name: "Markus Utils",
+        email: "pduongpdu99@gmail.com",
+        // name: payload.fromName ?? "Markus Utils",
+        // email: payload.fromEmail ?? "no-reply@markus-eco.com",
       },
       to: recipients,
       replyTo: payload.replyTo ? { email: payload.replyTo } : undefined,
