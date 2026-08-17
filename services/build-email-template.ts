@@ -39,7 +39,7 @@ export const studentTemplate = (payload: IStudentPayload) => {
   const templatePath = path.join(
     process.cwd(),
     "src",
-    "templates",
+    "services",
     "student.hbs",
   );
 
@@ -54,7 +54,7 @@ export const studentTemplate = (payload: IStudentPayload) => {
 
 const templatePath = path.join(
   process.cwd(),
-  "src/templates/contact.html",
+  "src/services/contact.html",
 );
 
 const templateSource = fs.readFileSync(templatePath, "utf8");
