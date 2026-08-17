@@ -1,32 +1,14 @@
 import { HandlerEvent } from "@netlify/functions";
 import { BrevoClient } from "@getbrevo/brevo";
-import fs from "node:fs";
-import path from "node:path";
-import Handlebars from "handlebars";
 
 type MailPayload = {
-  to?: string | string[];
   subject?: string;
-  message?: string;
+  senderName?: string;
+  senderEmail?: string;
+  to?: string | string[];
+  replyTo?: string;
   textContent?: string;
   htmlContent?: string;
-  fromEmail?: string;
-  fromName?: string;
-  replyTo?: string;
-  template?: string;
-  templateContext?: Record<string, unknown>;
-  name?: string;
-  customerName?: string;
-  email?: string;
-  phone?: string;
-  budget?: string;
-  projectType?: string;
-  projectGoal?: string;
-  projectDescription?: string;
-  timeline?: string;
-  notes?: string;
-  source?: string;
-  submittedAt?: string;
 };
 
 const buildRecipients = (value: string | string[] | undefined) => {
@@ -160,107 +142,15 @@ export const handler = async (event: HandlerEvent) => {
   // ==========================================
   // TEMPLATE
   // ==========================================
-  const subject = payload.subject ?? "New message";
-
-  const templateName =
-    payload.template ??
-    (
-      payload.projectDescription ||
-        payload.budget ||
-        payload.projectType
-        ? "support-request"
-        : undefined
-    );
-
-  const templateContext = {
-    subject: payload.subject ?? "Yêu cầu hỗ trợ",
-    customerName:
-      payload.customerName ??
-      payload.name ??
-      "Khách hàng",
-    email: payload.email ?? "",
-    phone: payload.phone ?? "",
-    budget: payload.budget ?? "",
-    projectType: payload.projectType ?? "",
-    projectGoal: payload.projectGoal ?? "",
-    projectDescription:
-      payload.projectDescription ??
-      payload.message ??
-      "",
-    timeline: payload.timeline ?? "",
-    notes: payload.notes ?? "",
-    source: payload.source ?? "chatbox",
-    submittedAt:
-      payload.submittedAt ??
-      new Date().toISOString().slice(0, 10),
-    ...(payload.templateContext ?? {}),
-  };
-
-  // ==========================================
-  // TEXT CONTENT
-  // ==========================================
-  const fallbackTextContent = [
-    `Chủ đề: ${templateContext.subject}`,
-    `Khách hàng: ${templateContext.customerName}`,
-    ...(templateContext.email
-      ? [`Email: ${templateContext.email}`]
-      : []),
-    ...(templateContext.phone
-      ? [`Điện thoại: ${templateContext.phone}`]
-      : []),
-    ...(templateContext.budget
-      ? [`Ngân sách: ${templateContext.budget}`]
-      : []),
-    ...(templateContext.projectType
-      ? [`Loại dự án: ${templateContext.projectType}`]
-      : []),
-    ...(templateContext.projectGoal
-      ? [`Mục tiêu: ${templateContext.projectGoal}`]
-      : []),
-    ...(templateContext.projectDescription
-      ? [`Mô tả: ${templateContext.projectDescription}`]
-      : []),
-    ...(templateContext.timeline
-      ? [`Thời gian: ${templateContext.timeline}`]
-      : []),
-    ...(templateContext.notes
-      ? [`Ghi chú: ${templateContext.notes}`]
-      : []),
-  ].join("\n");
 
   const textContent =
     payload.textContent?.trim() ||
-    payload.message?.trim() ||
-    fallbackTextContent ||
     "No message provided";
 
   // ==========================================
   // HTML CONTENT
   // ==========================================
   let htmlContent = payload.htmlContent ?? "";
-
-  if (!htmlContent && templateName) {
-    try {
-      const templatePath = path.join(
-        process.cwd(),
-        "templates",
-        `${templateName}.hbs`,
-      );
-
-      const templateSource = fs.readFileSync(
-        templatePath,
-        "utf8",
-      );
-
-      const template = Handlebars.compile(templateSource);
-
-      htmlContent = template(templateContext);
-    } catch {
-      htmlContent = textContent
-        ? `<p>${textContent.replace(/\n/g, "<br />")}</p>`
-        : "";
-    }
-  }
 
   if (!htmlContent && textContent) {
     htmlContent = `<p>${textContent.replace(/\n/g, "<br />")}</p>`;
@@ -276,24 +166,20 @@ export const handler = async (event: HandlerEvent) => {
 
     const response =
       await brevo.transactionalEmails.sendTransacEmail({
-        subject,
+        subject: payload.subject,
 
         sender: {
-          name: "Markus Utils",
-          email: "pduongpdu99@gmail.com",
+          name: payload.senderName,
+          email: payload.senderEmail,
         },
-
         to: recipients,
-
         replyTo: payload.replyTo
           ? {
             email: payload.replyTo,
           }
           : undefined,
-
-        textContent,
-
-        htmlContent: htmlContent || undefined,
+        textContent: payload.textContent,
+        htmlContent: payload.htmlContent,
       });
 
     return jsonResponse(
