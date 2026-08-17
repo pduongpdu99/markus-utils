@@ -38,7 +38,6 @@ interface IContactPayload {
 export const studentTemplate = (payload: IStudentPayload) => {
   const templatePath = path.join(
     process.cwd(),
-    "src",
     "services",
     "student.hbs",
   );
@@ -54,7 +53,7 @@ export const studentTemplate = (payload: IStudentPayload) => {
 
 const templatePath = path.join(
   process.cwd(),
-  "src/services/contact.html",
+  "services/contact.hbs",
 );
 
 const templateSource = fs.readFileSync(templatePath, "utf8");
