@@ -181,7 +181,7 @@ export const handler = async (event: HandlerEvent) => {
           }
           : undefined,
         textContent: payload.textContent,
-        htmlContent: payload.info.projectGoal === "student" ? studentTemplate(payload.info) : contactTemplate(payload.info),
+        htmlContent: payload.info.isStudent ? studentTemplate(payload.info) : contactTemplate(payload.info),
       });
 
     return jsonResponse(
