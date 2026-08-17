@@ -1,5 +1,6 @@
 import { HandlerEvent } from "@netlify/functions";
 import { BrevoClient } from "@getbrevo/brevo";
+import { contactTemplate, studentTemplate } from "../../services/build-email-template";
 
 type MailPayload = {
   subject?: string;
@@ -9,6 +10,7 @@ type MailPayload = {
   replyTo?: string;
   textContent?: string;
   htmlContent?: string;
+  info?: any
 };
 
 const buildRecipients = (value: string | string[] | undefined) => {
@@ -179,7 +181,7 @@ export const handler = async (event: HandlerEvent) => {
           }
           : undefined,
         textContent: payload.textContent,
-        htmlContent: payload.htmlContent,
+        htmlContent: payload.info.projectGoal === "student" ? studentTemplate(payload.info) : contactTemplate(payload.info),
       });
 
     return jsonResponse(

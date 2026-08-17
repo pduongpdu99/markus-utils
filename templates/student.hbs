@@ -1,0 +1,157 @@
+<div style="margin:0;padding:0;background-color:#f5f7fa;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
+  <div style="max-width:680px;margin:0 auto;padding:32px 16px;">
+
+    <!-- Header -->
+    <div style="background:#111827;border-radius:12px 12px 0 0;padding:28px 32px;">
+      <div style="font-size:13px;color:#9ca3af;margin-bottom:8px;">
+        {{source}}
+      </div>
+
+      <h1 style="margin:0;font-size:24px;line-height:1.4;color:#ffffff;">
+        {{subject}}
+      </h1>
+    </div>
+
+    <!-- Content -->
+    <div style="background:#ffffff;padding:32px;border:1px solid #e5e7eb;border-top:0;">
+
+      <p style="margin:0 0 24px;font-size:15px;line-height:1.7;">
+        Xin chào,
+      </p>
+
+      <p style="margin:0 0 24px;font-size:15px;line-height:1.7;">
+        Bạn vừa nhận được một yêu cầu hỗ trợ dự án website.
+        Dưới đây là thông tin chi tiết được gửi từ biểu mẫu:
+      </p>
+
+      <!-- Contact Information -->
+      <div style="margin-bottom:28px;">
+        <h2 style="margin:0 0 14px;font-size:17px;color:#111827;">
+          Thông tin liên hệ
+        </h2>
+
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <tr>
+            <td style="padding:10px 0;color:#6b7280;width:160px;">
+              Họ và tên
+            </td>
+            <td style="padding:10px 0;font-weight:600;">
+              {{fromName}}
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:10px 0;color:#6b7280;">
+              Email
+            </td>
+            <td style="padding:10px 0;">
+              <a
+                href="mailto:{{fromEmail}}"
+                style="color:#2563eb;text-decoration:none;"
+              >
+                {{fromEmail}}
+              </a>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:10px 0;color:#6b7280;">
+              Số điện thoại
+            </td>
+            <td style="padding:10px 0;">
+              {{phone}}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Project Information -->
+      <div style="margin-bottom:28px;">
+        <h2 style="margin:0 0 14px;font-size:17px;color:#111827;">
+          Thông tin dự án
+        </h2>
+
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <tr>
+            <td style="padding:10px 0;color:#6b7280;width:160px;">
+              Loại dự án
+            </td>
+            <td style="padding:10px 0;font-weight:600;">
+              {{projectType}}
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:10px 0;color:#6b7280;">
+              Mục tiêu
+            </td>
+            <td style="padding:10px 0;">
+              {{projectGoal}}
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:10px 0;color:#6b7280;">
+              Thời gian
+            </td>
+            <td style="padding:10px 0;">
+              {{timeline}}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Project Description -->
+      <div style="margin-bottom:28px;">
+        <h2 style="margin:0 0 14px;font-size:17px;color:#111827;">
+          Mô tả dự án
+        </h2>
+
+        <div style="background:#f9fafb;border-left:4px solid #2563eb;padding:16px 18px;border-radius:6px;">
+          <p style="margin:0;font-size:14px;line-height:1.7;">
+            {{projectDescription}}
+          </p>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div style="margin-bottom:28px;">
+        <h2 style="margin:0 0 14px;font-size:17px;color:#111827;">
+          Ghi chú
+        </h2>
+
+        <p style="margin:0;font-size:14px;line-height:1.7;color:#4b5563;">
+          {{notes}}
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div style="padding-top:8px;">
+        <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#4b5563;">
+          Vui lòng liên hệ với khách hàng để trao đổi thêm về yêu cầu,
+          phạm vi công việc, giải pháp kỹ thuật và báo giá chi tiết.
+        </p>
+
+        <a
+          href="mailto:{{fromEmail}}"
+          style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:7px;font-size:14px;font-weight:600;"
+        >
+          Liên hệ khách hàng
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 12px 12px;padding:20px 32px;">
+      <p style="margin:0 0 6px;font-size:12px;color:#6b7280;">
+        Email được gửi từ hệ thống {{source}}.
+      </p>
+
+      <p style="margin:0;font-size:12px;color:#9ca3af;">
+        Thời gian gửi: {{submittedAt}}
+      </p>
+    </div>
+
+  </div>
+</div>
