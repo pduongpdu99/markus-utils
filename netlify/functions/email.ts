@@ -89,7 +89,6 @@ export const handler: Handler = async (event) => {
   }
 
   const subject = payload.subject ?? "New message";
-  const textContent = payload.textContent ?? payload.message ?? "";
 
   const templateName = payload.template ?? (
     payload.projectDescription || payload.budget || payload.projectType ? "support-request" : undefined
@@ -110,6 +109,21 @@ export const handler: Handler = async (event) => {
     submittedAt: payload.submittedAt ?? new Date().toISOString().slice(0, 10),
     ...(payload.templateContext ?? {}),
   };
+
+  const fallbackTextContent = [
+    `Chủ đề: ${templateContext.subject}`,
+    `Khách hàng: ${templateContext.customerName}`,
+    ...(templateContext.email ? [`Email: ${templateContext.email}`] : []),
+    ...(templateContext.phone ? [`Điện thoại: ${templateContext.phone}`] : []),
+    ...(templateContext.budget ? [`Ngân sách: ${templateContext.budget}`] : []),
+    ...(templateContext.projectType ? [`Loại dự án: ${templateContext.projectType}`] : []),
+    ...(templateContext.projectGoal ? [`Mục tiêu: ${templateContext.projectGoal}`] : []),
+    ...(templateContext.projectDescription ? [`Mô tả: ${templateContext.projectDescription}`] : []),
+    ...(templateContext.timeline ? [`Thời gian: ${templateContext.timeline}`] : []),
+    ...(templateContext.notes ? [`Ghi chú: ${templateContext.notes}`] : []),
+  ].join("\n");
+
+  const textContent = payload.textContent?.trim() || payload.message?.trim() || fallbackTextContent || "No message provided";
 
   let htmlContent = payload.htmlContent ?? "";
 
