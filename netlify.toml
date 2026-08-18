@@ -4,6 +4,10 @@
     base=""
     functions="netlify/functions"
 
+[functions]
+    included_files = ["services/**/*.hbs"]
+
+
 [[redirects]]
     from="/api/*"
     to="/.netlify/functions/:splat"
